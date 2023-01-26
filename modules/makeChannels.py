@@ -20,7 +20,7 @@ def execute(proxe, token):
         'Channel name (TIP: doing "channel1, channel2" will randomize channel name): ').split(', ')
     amount = int(utils.binput('Amount of times: '))
 
-    id = '970203723819282432'
+    # id = '970203723819282432'
 
     if discord.checkGuild(id, token, proxe) == 404:
         utils.warn('Bot is not in guild')

@@ -12,7 +12,7 @@ threads = []
 def execute(proxe, token):
     id = utils.binput('Guild ID: ')
 
-    id = '970203723819282432'
+    # id = '970203723819282432'
 
     if discord.checkGuild(id, token, proxe) == 404:
         utils.warn('Bot is not in guild')
