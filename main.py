@@ -12,9 +12,6 @@ load_dotenv()
 
 token = os.getenv('token')
 
-
-logo = ''
-
 utils.projectDetails.owner = 'GS_S.G'
 utils.projectDetails.projectName = 'Discord server nuker 😎'
 utils.projectDetails.version = '0.1'
@@ -28,7 +25,7 @@ utils.settings.logo = logo
 utils.settings.logoOnClear = True
 utils.settings.centerLogo = True
 
-# utils.startUp(True)
+utils.startUp(True)
 
 modules = []
 
@@ -41,8 +38,6 @@ for index, file in enumerate(os.listdir('./modules')):
         except Exception as e:
             utils.warn(str(e))
             exit()
-
-# proxes = prox
 
 
 def menu(proxy_to_use):

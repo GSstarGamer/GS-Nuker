@@ -1,5 +1,4 @@
 import functions.PyUtls as utils
-import asyncio
 import functions.discordRequests as discord
 import json
 import threading as thr

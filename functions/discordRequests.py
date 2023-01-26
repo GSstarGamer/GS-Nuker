@@ -1,10 +1,7 @@
 import requests
 import json
-import functions.proxieHandles as proxe
 import queue
 import functions.PyUtls as utils
-from requests.adapters import HTTPAdapter
-from urllib3 import Retry
 from time import sleep as wait
 
 my_queue = queue.Queue()

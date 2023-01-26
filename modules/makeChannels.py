@@ -1,5 +1,4 @@
 import functions.PyUtls as utils
-import asyncio
 import random
 import requests
 import json
