@@ -1,35 +1,47 @@
 import functions.PyUtls as utils
 import asyncio
 import random
+import requests
+import json
+import functions.discordRequests as discord
+import threading as thr
+import queue
 
 name = 'Make channels'
 description = 'Makes n number of channels with given name/names'
 
-def execute():
-    token = utils.binput('Token: ')
+threads = []
+
+my_queue = queue.Queue()
+
+
+def execute(proxe, token):
     id = utils.binput('Guild ID: ')
-    channelName = utils.binput('Channel name (TIP: doing "channel1, channel2" will randomize channel name): ')
+    channelName = utils.binput(
+        'Channel name (TIP: doing "channel1, channel2" will randomize channel name): ').split(', ')
     amount = int(utils.binput('Amount of times: '))
 
-    import discord
-    intents = discord.Intents.default()
-    intents.message_content = True
-    client = discord.Client(intents=intents)
+    id = '970203723819282432'
 
-    @client.event
-    async def on_ready():
-        utils.bprint('Started')
-        guild = client.get_guild(id)
-        if guild is None:
-            guild = await client.fetch_guild(id)
-        if guild is not None:
-            channel_names = channelName.split(', ')
-            channel_creators = [guild.create_text_channel(random.choice(channel_names)) for _ in range(amount)]
-            await asyncio.gather(*channel_creators)
-            print(f"{amount} channels created.")
-        else:
-            print('Guild not found')
-        utils.bprint('Done')
-        await client.close()
+    if discord.checkGuild(id, token, proxe) == 404:
+        utils.warn('Bot is not in guild')
+        return
 
-    client.run(token)
+    if len(discord.guildChannels(id, token, proxe)) >= 500:
+        utils.warn('Server is at maximum cap')
+        return
+
+    list_of_channels = discord.guildChannels(id, token, proxe)
+
+    times_created = 0
+    for i in range(amount):
+        thread = thr.Thread(target=discord.channelCreate, args=(
+            random.choice(channelName), id, token, proxe))
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+        times_created += 1
+    utils.bprint(
+        f"{len(discord.guildChannels(id, token, proxe))-len(list_of_channels)} channels created.")
